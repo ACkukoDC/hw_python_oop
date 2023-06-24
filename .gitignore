@@ -144,3 +144,17 @@ dmypy.json
 .history/
 
 .mypy_cache
+
+ .git/*
+ env/
+ venv/
+ .venv
+ .venv/
+ 
+ __pycache__/
+ *.py[cod]
+ 
+ 
+ *.sublime-project
+ *.sublime-workspace
+ 
