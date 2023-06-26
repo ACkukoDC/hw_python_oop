@@ -1,29 +1,24 @@
+from dataclasses import dataclass, asdict
 from typing import Type
 
 
+@dataclass
 class InfoMessage:
     """Информационное сообщение о тренировке."""
-
-    def __init__(self,
-                 training_type: str,
-                 duration: float,
-                 distance: float,
-                 speed: float,
-                 calories: float
-                 ) -> None:
-        self.training_type = training_type
-        self.duration = duration
-        self.distance = distance
-        self.speed = speed
-        self.calories = calories
+    training_type: str
+    duration: float
+    distance: float
+    speed: float
+    calories: float
+    Text: str = ('Тип тренировки: {training_type};'
+                 ' Длительность: {duration:.3f} ч.;'
+                 ' Дистанция: {distance:.3f} км;'
+                 ' Ср. скорость: {speed:.3f} км/ч;'
+                 ' Потрачено ккал: {calories:.3f}.')
 
     def get_message(self) -> str:
         """Вывод сообщения на экран."""
-        return (f'Тип тренировки: {self.training_type};'
-                f' Длительность: {self.duration:.3f} ч.;'
-                f' Дистанция: {self.distance:.3f} км;'
-                f' Ср. скорость: {self.speed:.3f} км/ч;'
-                f' Потрачено ккал: {self.calories:.3f}.')
+        return self.Text.format(**asdict(self))
 
 
 class Training:
@@ -82,8 +77,8 @@ class Running(Training):
 class SportsWalking(Training):
     """Тренировка: спортивная ходьба."""
 
-    BIG_CALORIES_MEAN_WEIGHT_MULTIPLIER = 0.035
-    SMALL_CALORIES_MEAN_WEIGHT_MULTIPLIER = 0.029
+    CALORIES_WEIGHT_RATIO_SPENT_MULTIPLIER = 0.035
+    CALORIES_MEAN_SPEED_RATIO_MULTIPLIER = 0.029
     KM_PER_H_IN_METR_PER_SEC = 0.278
     SM_IN_M = 100
 
@@ -100,10 +95,10 @@ class SportsWalking(Training):
         """Получить количество затраченных калорий."""
         mean_sport_speed = (self.get_mean_speed()
                             * self.KM_PER_H_IN_METR_PER_SEC)
-        spent_calories = ((self.BIG_CALORIES_MEAN_WEIGHT_MULTIPLIER
+        spent_calories = ((self.CALORIES_WEIGHT_RATIO_SPENT_MULTIPLIER
                            * self.weight + (mean_sport_speed ** 2
                                             / (self.height / self.SM_IN_M))
-                           * self.SMALL_CALORIES_MEAN_WEIGHT_MULTIPLIER
+                           * self.CALORIES_MEAN_SPEED_RATIO_MULTIPLIER
                            * self.weight) * self.duration_in_min())
         return spent_calories
 
@@ -138,7 +133,7 @@ class Swimming(Training):
                 * self.weight * self.duration)
 
 
-def read_package(workout_name: str, statistics: list[int]) -> Training:
+def read_package(workout_name: str, statistics: list[float]) -> Training:
     """Прочитать данные полученные от датчиков."""
     commands: dict[str, Type[Training]] = {
         'SWM': Swimming,
@@ -146,15 +141,14 @@ def read_package(workout_name: str, statistics: list[int]) -> Training:
         'WLK': SportsWalking
     }
     if workout_name not in commands:
-        raise ValueError("Такого вида тренировки не существует.")
-    else:
-        return commands[workout_name](*statistics)
+        raise ValueError('Такого вида тренировки не существует.')
+    return commands[workout_name](*statistics)
 
 
 def main(session: Training) -> None:
     """Главная функция."""
     info = session.show_training_info()
-    return print(info.get_message())
+    print(info.get_message())
 
 
 if __name__ == '__main__':
