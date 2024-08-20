@@ -77,8 +77,8 @@ class Running(Training):
 class SportsWalking(Training):
     """Тренировка: спортивная ходьба."""
 
-    CALORIES_WEIGHT_RATIO_SPENT_MULTIPLIER = 0.035
-    CALORIES_MEAN_SPEED_RATIO_MULTIPLIER = 0.029
+    CALORIES_WEIGHT_SPENT_MULTIPLIER = 0.035
+    CALORIES_MEAN_SPEED_MULTIPLIER = 0.029
     KM_PER_H_IN_METR_PER_SEC = 0.278
     SM_IN_M = 100
 
@@ -95,10 +95,10 @@ class SportsWalking(Training):
         """Получить количество затраченных калорий."""
         mean_sport_speed = (self.get_mean_speed()
                             * self.KM_PER_H_IN_METR_PER_SEC)
-        spent_calories = ((self.CALORIES_WEIGHT_RATIO_SPENT_MULTIPLIER
+        spent_calories = ((self.CALORIES_WEIGHT_SPENT_MULTIPLIER
                            * self.weight + (mean_sport_speed ** 2
                                             / (self.height / self.SM_IN_M))
-                           * self.CALORIES_MEAN_SPEED_RATIO_MULTIPLIER
+                           * self.CALORIES_MEAN_SPEED_MULTIPLIER
                            * self.weight) * self.duration_in_min())
         return spent_calories
 
