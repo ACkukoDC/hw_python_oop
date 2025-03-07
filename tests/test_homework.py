@@ -15,7 +15,6 @@ except NameError as exc:
 except ImportError:
     assert False, 'Не найден файл с домашней работой `homework.py`'
 
-
 ValueInfo = namedtuple('ValueInfo', ('value', 'description'))
 
 
@@ -61,25 +60,25 @@ def test_InfoMessage():
 
 @pytest.mark.parametrize('input_data, expected', [
     (['Swimming', 1, 75, 1, 80],
-        'Тип тренировки: Swimming; '
-        'Длительность: 1.000 ч.; '
-        'Дистанция: 75.000 км; '
-        'Ср. скорость: 1.000 км/ч; '
-        'Потрачено ккал: 80.000.'
+     'Тип тренировки: Swimming; '
+     'Длительность: 1.000 ч.; '
+     'Дистанция: 75.000 км; '
+     'Ср. скорость: 1.000 км/ч; '
+     'Потрачено ккал: 80.000.'
      ),
     (['Running', 4, 20, 4, 20],
-        'Тип тренировки: Running; '
-        'Длительность: 4.000 ч.; '
-        'Дистанция: 20.000 км; '
-        'Ср. скорость: 4.000 км/ч; '
-        'Потрачено ккал: 20.000.'
+     'Тип тренировки: Running; '
+     'Длительность: 4.000 ч.; '
+     'Дистанция: 20.000 км; '
+     'Ср. скорость: 4.000 км/ч; '
+     'Потрачено ккал: 20.000.'
      ),
     (['SportsWalking', 12, 6, 12, 6],
-        'Тип тренировки: SportsWalking; '
-        'Длительность: 12.000 ч.; '
-        'Дистанция: 6.000 км; '
-        'Ср. скорость: 12.000 км/ч; '
-        'Потрачено ккал: 6.000.'
+     'Тип тренировки: SportsWalking; '
+     'Длительность: 12.000 ч.; '
+     'Дистанция: 6.000 км; '
+     'Ср. скорость: 12.000 км/ч; '
+     'Потрачено ккал: 6.000.'
      ),
 ])
 def test_InfoMessage_get_message(input_data, expected):
@@ -111,19 +110,19 @@ def test_Training():
         '`Training` должен быть классом.'
     )
     for name, value in {
-            'LEN_STEP': ValueInfo(
-                0.65, 
-                (
+        'LEN_STEP': ValueInfo(
+            0.65,
+            (
                     ', в которой будет храниться расстояние, которое '
                     'спортсмен преодолевает за один шаг или гребок'
-                )
-            ),
-            'M_IN_KM': ValueInfo(
-                1000,
-                (
-                    ' для перевода значений из метров в километры'
-                )
             )
+        ),
+        'M_IN_KM': ValueInfo(
+            1000,
+            (
+                    ' для перевода значений из метров в километры'
+            )
+        )
     }.items():
         assert hasattr(homework.Training, name), (
             f'У класса `Training` должна быть константа `{name}`'
@@ -212,6 +211,7 @@ def test_Training_show_training_info(monkeypatch):
 
     def mock_get_spent_calories():
         return 100
+
     monkeypatch.setattr(
         training,
         'get_spent_calories',
@@ -234,14 +234,14 @@ def test_Swimming():
     )
     Swimming_attr_values = homework.Swimming.__dict__.values()
     for value_info in {
-            'CALORIES_MEAN_SPEED_SHIFT': ValueInfo(
-                1.1,
-                (' для смещения значения средней скорости')
-            ),
-            'CALORIES_WEIGHT_MULTIPLIER': ValueInfo(
-                2,
-                ' для множителя скорости'
-            )
+        'CALORIES_MEAN_SPEED_SHIFT': ValueInfo(
+            1.1,
+            (' для смещения значения средней скорости')
+        ),
+        'CALORIES_WEIGHT_MULTIPLIER': ValueInfo(
+            2,
+            ' для множителя скорости'
+        )
     }.values():
         assert value_info.value in Swimming_attr_values, (
             f'У класса `Swimming` должна быть константа'
@@ -304,25 +304,25 @@ def test_SportsWalking():
     )
     SportsWalking_attr_values = homework.SportsWalking.__dict__.values()
     for value_info in {
-            'CALORIES_WEIGHT_MULTIPLIER': ValueInfo(
-                0.035,
-                ' для множителя веса спортсмена'
-            ),
-            'CALORIES_SPEED_HEIGHT_MULTIPLIER': ValueInfo(
-                0.029,
-                (
+        'CALORIES_WEIGHT_MULTIPLIER': ValueInfo(
+            0.035,
+            ' для множителя веса спортсмена'
+        ),
+        'CALORIES_SPEED_HEIGHT_MULTIPLIER': ValueInfo(
+            0.029,
+            (
                     ' для множителя частного квадрата средней скорости и '
                     'роста спортсмена'
-                )
-            ),
-            'KMH_IN_MSEC': ValueInfo(
-                0.278,
-                ' для перевода значений из км/ч в м/с'
-            ),
-            'CM_IN_M': ValueInfo(
-                100,
-                ' для перевода значений из сантиметров в метры'
             )
+        ),
+        'KMH_IN_MSEC': ValueInfo(
+            0.278,
+            ' для перевода значений из км/ч в м/с'
+        ),
+        'CM_IN_M': ValueInfo(
+            100,
+            ' для перевода значений из сантиметров в метры'
+        )
     }.values():
         assert value_info.value in SportsWalking_attr_values, (
             'У класса `SportsWalking` должна быть константа'
@@ -363,14 +363,14 @@ def test_Running():
     )
     Running_attr_values = homework.Running.__dict__.values()
     for value_info in {
-            'CALORIES_MEAN_SPEED_MULTIPLIER': ValueInfo(
-                18,
-                ' для множителя средней скорости'
-            ),
-            'CALORIES_MEAN_SPEED_SHIFT': ValueInfo(
-                1.79,
-                ' для сдвига средней скорости'
-            )
+        'CALORIES_MEAN_SPEED_MULTIPLIER': ValueInfo(
+            18,
+            ' для множителя средней скорости'
+        ),
+        'CALORIES_MEAN_SPEED_SHIFT': ValueInfo(
+            1.79,
+            ' для сдвига средней скорости'
+        )
     }.values():
         assert value_info.value in Running_attr_values, (
             f'У класса `Running` должна быть константа'
